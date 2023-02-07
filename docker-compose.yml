@@ -1,6 +1,12 @@
 version: "3.9"
 
 services:
+  elk: 
+    image: ghcr.io/elk-zone/elk:latest
+    container_name: elk
+    ports: 
+      - "3000:5134"
+    restart: "always"
   gotosocial:
     image: superseriousbusiness/gotosocial:latest
     container_name: gotosocial
