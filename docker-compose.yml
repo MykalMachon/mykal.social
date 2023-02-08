@@ -1,12 +1,18 @@
-version: "3.9"
+version: '3.9'
 
 services:
-  elk: 
+  elk:
     image: ghcr.io/elk-zone/elk:latest
     container_name: elk
-    ports: 
-      - "3000:5134"
-    restart: "always"
+    networks:
+      - elk
+    env_file:
+      - elk.env
+    ports:
+      - '3000:5314'
+    volumes:
+      - './elk/data:/elk/data'
+    restart: 'always'
   gotosocial:
     image: superseriousbusiness/gotosocial:latest
     container_name: gotosocial
@@ -16,12 +22,14 @@ services:
     env_file:
       - gotosocial.env
     ports:
-      - "80:8080"
+      - '80:8080'
     volumes:
       - ./gotosocial/data:/gotosocial/storage
-    restart: "always"
+    restart: 'always'
 
 networks:
+  elk: 
+    driver: bridge
   gotosocial:
     ipam:
       driver: default
